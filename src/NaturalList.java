@@ -22,7 +22,7 @@ public class NaturalList {
 	}
 	
 	public NaturalList() {
-		numbers = new ArrayList<Natural>();
+//		numbers = new ArrayList<Natural>();
 	}
 	
 	@Override
