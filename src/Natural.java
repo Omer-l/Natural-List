@@ -3,6 +3,7 @@ import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
 //Add an invariant here.
+@Invariant("data > 0 && (data % 1) == 0 && data <= Integer.MAX_VALUE")
 public class Natural implements Comparable<Natural> {
 	private int data;
 
@@ -29,7 +30,8 @@ public class Natural implements Comparable<Natural> {
 	}
 
 	// Add contracts to all following methods.
-	
+
+	@Ensures("this != null")
 	public Natural(int d) {
 		data = d;
 	}
@@ -45,7 +47,7 @@ public class Natural implements Comparable<Natural> {
 	public void add(Natural n) {
 		data += n.data;
 	}
-	
+
 	public void subtract(Natural n) {
 		data -= n.data;
 	}
