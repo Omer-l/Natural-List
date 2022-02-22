@@ -8,17 +8,15 @@ import com.google.java.contract.InvariantError;
 class NaturalTest {
 
 	@Test
-	void testConstructorNotNull() {
+	void testConstructorSatisfyPostcondition() {
 		Natural n = new Natural(50);
 	}
 	
 	@Test
 	void testConstructorLessThanOrEqualTo0() {
-		assertThrows(InvariantError.class, () -> {
+		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(0);
 		});	
 	}
-	
-	
 
 }
