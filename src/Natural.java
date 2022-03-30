@@ -30,9 +30,8 @@ public class Natural implements Comparable<Natural> {
 	}
 
 	// Add contracts to all following methods.
-
-	@Requires("d > 0 && (d % 1) == 0 && d <= Integer.MAX_VALUE")
-	@Ensures("d > 0 && (d % 1) == 0 && d <= Integer.MAX_VALUE")
+	@Requires("d > 0")
+	@Ensures("data == d")
 	public Natural(int d) {
 		data = d;
 	}
