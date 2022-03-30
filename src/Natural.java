@@ -51,13 +51,11 @@ public class Natural implements Comparable<Natural> {
 	@Requires("n.data < Integer.MAX_VALUE") // less than because max value + 1 will overflow
 	@Ensures("!overflowsAddition(old(this), n) && correctlyAdded(old(this.data), n.data)")
 	public void add(Natural n) {
-		System.out.println("DAYA: " + this.data + " ADDING " + n.data);
 		this.data += n.data;
-		System.out.println("DAYA: " + this.data);
 	}
 
-	@Requires("n.data < Integer.MAX_VALUE ") // less than because max value - max value will be 0
-	@Ensures("!minusNumber(old(this), n)")
+	@Requires("n.data < Integer.MAX_VALUE") // less than because max value - max value will be 0
+	@Ensures("!minusNumber(old(this.data), n.data) && correctlySubtracted(old(this.data), n.data)")
 	public void subtract(Natural n) {
 		data -= n.data;
 	}
@@ -84,16 +82,14 @@ public class Natural implements Comparable<Natural> {
 		int n1 = natural1.data;
 		int n2 = natural2.data;
 		int result = n1 + n2;
-	
+
 	    if (result < 0)
 	        return true;
 	    else
 	    	return false;
 	}
 	
-	private boolean minusNumber(Natural natural1, Natural natural2) {
-		int n1 = natural1.data;
-		int n2 = natural2.data;
+	private boolean minusNumber(int n1, int n2) {
 		int result = n1 - n2;
 	
 	    if (result < 0)
@@ -104,6 +100,11 @@ public class Natural implements Comparable<Natural> {
 
 	private boolean correctlyAdded(int n1, int n2) {
 		int result = n1 + n2;
+		return result == this.data;
+	}
+
+	private boolean correctlySubtracted(int n1, int n2) {
+		int result = n1 - n2;
 		return result == this.data;
 	}
 }
