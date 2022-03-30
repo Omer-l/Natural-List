@@ -60,8 +60,11 @@ public class Natural implements Comparable<Natural> {
 		data -= n.data;
 	}
 	
+	@Requires("n.data <= Integer.MAX_VALUE") //1 * max value is max value worst case.
+	@Ensures("!overflowsMultiply(old(this), n) && correctlyMultiplied(old(this.data), n.data)")
 	public void multiply(Natural n) {
 		data *= n.data;
+		System.out.println(data);
 	}
 	
 	public void divide(Natural n) {
@@ -88,7 +91,12 @@ public class Natural implements Comparable<Natural> {
 	    else
 	    	return false;
 	}
-	
+
+	private boolean correctlyAdded(int n1, int n2) {
+		int result = n1 + n2;
+		return result == this.data;
+	}
+
 	private boolean minusNumber(int n1, int n2) {
 		int result = n1 - n2;
 	
@@ -98,13 +106,24 @@ public class Natural implements Comparable<Natural> {
 	    	return false;
 	}
 
-	private boolean correctlyAdded(int n1, int n2) {
-		int result = n1 + n2;
-		return result == this.data;
-	}
-
 	private boolean correctlySubtracted(int n1, int n2) {
 		int result = n1 - n2;
+		return result == this.data;
+	}
+	
+	private boolean overflowsMultiply(Natural natural1, Natural natural2) {
+		int n1 = natural1.data;
+		int n2 = natural2.data;
+		int result = n1 * n2; //needs work
+
+	    if (result < 0)
+	        return true;
+	    else
+	    	return false;
+	}
+
+	private boolean correctlyMultiplied(int n1, int n2) {
+		int result = n1 * n2;
 		return result == this.data;
 	}
 }
