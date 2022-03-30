@@ -41,7 +41,9 @@ public class Natural implements Comparable<Natural> {
 	public void increment() {
 		data++; 
 	}
-
+	
+	@Requires("data > 1")
+	@Ensures({"decrementedByOne(old(data), data)"})
 	public void decrement() {
 		data--;
 	}
