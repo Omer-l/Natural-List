@@ -3,7 +3,7 @@ import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
 //Add an invariant here.
-@Invariant("data > 0 && (data % 1) == 0 && data <= Integer.MAX_VALUE")
+@Invariant("data >= 0 && (data % 1) == 0 && data <= Integer.MAX_VALUE")
 public class Natural implements Comparable<Natural> {
 	private int data;
 
@@ -30,7 +30,7 @@ public class Natural implements Comparable<Natural> {
 	}
 
 	// Add contracts to all following methods.
-	@Requires("d > 0")
+	@Requires("d >= 0")
 	@Ensures("data == d")
 	public Natural(int d) {
 		data = d;
@@ -42,7 +42,7 @@ public class Natural implements Comparable<Natural> {
 		data++; 
 	}
 	
-	@Requires("data > 1")
+	@Requires("data > 0")
 	@Ensures({"decrementedByOne(old(data), data)"})
 	public void decrement() {
 		data--;
@@ -60,7 +60,7 @@ public class Natural implements Comparable<Natural> {
 		data -= n.data;
 	}
 	
-	@Requires("n.data <= Integer.MAX_VALUE") //1 * max value is max value worst case.
+	@Requires("n.data != 0 && n.data <= Integer.MAX_VALUE") //1 * max value is max value worst case.
 	@Ensures("!overflowsMultiply(old(this), n) && correctlyMultiplied(old(this.data), n.data)")
 	public void multiply(Natural n) {
 		data *= n.data;
