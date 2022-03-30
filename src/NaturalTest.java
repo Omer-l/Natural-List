@@ -8,17 +8,37 @@ import com.google.java.contract.PostconditionError;
 
 class NaturalTest {
 
+	/** CONSTRUCTOR */
+	
 	@Test
-	void testConstructorSatisfyPostcondition() {
+	void constructorFalsifyPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n = new Natural(-5);
+		});	
+		int testino = Integer.MAX_VALUE + 1;
+		System.out.println(testino == Integer.MIN_VALUE);
+	}
+	
+	@Test
+	void constructorSatisfyPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n = new Natural(5);
 		});
 	}
 	
+	/** INCREMENT */
+	
 	@Test
-	void testConstructorFalsifyPrecondition() {
-		assertThrows(PreconditionError.class, () -> {
-			Natural n = new Natural(-5);
-		});	
+	void incrementFalsifyPrecondition() {
+		
 	}
+	
+	@Test
+	void incrementSatisfyPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+			n.increment();
+		});
+	}
+	
 }
