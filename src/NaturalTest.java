@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import com.google.java.contract.PreconditionError;
 import com.google.java.contract.InvariantError;
+import com.google.java.contract.PostconditionError;
 
 class NaturalTest {
 
 	@Test
 	void testConstructorSatisfyPostcondition() {
-		Natural n = new Natural(50);
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+		});
 	}
 	
 	@Test
-	void testConstructorLessThanOrEqualTo0() {
+	void testConstructorFalsifyPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			Natural n = new Natural(0);
+			Natural n = new Natural(-5);
 		});	
 	}
-
 }
