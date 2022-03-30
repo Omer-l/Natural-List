@@ -36,10 +36,12 @@ public class Natural implements Comparable<Natural> {
 		data = d;
 	}
 	
+	@Requires("data < Integer.MAX_VALUE")
+	@Ensures({"incrementedByOne(old(data), data)"})
 	public void increment() {
 		data++; 
 	}
-	
+
 	public void decrement() {
 		data--;
 	}
@@ -58,5 +60,13 @@ public class Natural implements Comparable<Natural> {
 	
 	public void divide(Natural n) {
 		data /= n.data;
+	}
+	
+	private boolean incrementedByOne(int oldData, int newData) {
+		return oldData + 1 == newData;
+	}
+	
+	private boolean decrementedByOne(int oldData, int newData) {
+		return oldData - 1 == newData;
 	}
 }
