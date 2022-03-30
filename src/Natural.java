@@ -48,6 +48,8 @@ public class Natural implements Comparable<Natural> {
 		data--;
 	}
 	
+	@Requires("n.data < Integer.MAX_VALUE") // less than because max value + 1 will overflow
+	@Ensures("!overflowsAddition(old(this), n)")
 	public void add(Natural n) {
 		data += n.data;
 	}
@@ -64,11 +66,25 @@ public class Natural implements Comparable<Natural> {
 		data /= n.data;
 	}
 	
+	/** MY FUNCTIONS */
+	
 	private boolean incrementedByOne(int oldData, int newData) {
 		return oldData + 1 == newData;
 	}
 	
 	private boolean decrementedByOne(int oldData, int newData) {
 		return oldData - 1 == newData;
+	}
+	
+	private boolean overflowsAddition(Natural natural1, Natural natural2) {
+		int n1 = natural1.data;
+		int n2 = natural2.data;
+		int result = n1 + n2;
+	
+	    System.out.println(result);
+	    if (result < 0)
+	        return true;
+	    else
+	    	return false;
 	}
 }
