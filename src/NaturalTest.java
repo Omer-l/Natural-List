@@ -11,14 +11,14 @@ class NaturalTest {
 	/** CONSTRUCTOR */
 	
 	@Test
-	void constructorFalsifyPrecondition() {
+	void falsifyConstructorPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(-5);
 		});	
 	}
 	
 	@Test
-	void constructorSatisfyPostcondition() {
+	void satisfyConstructorPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n = new Natural(5);
 		});
@@ -27,7 +27,7 @@ class NaturalTest {
 	/** INCREMENT */
 	
 	@Test
-	void incrementFalsifyPrecondition() {
+	void falsifyIncrementPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(Integer.MAX_VALUE);
 			n.increment();
@@ -35,7 +35,7 @@ class NaturalTest {
 	}
 	
 	@Test
-	void incrementSatisfyPostcondition() {
+	void satisfyIncrementPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n = new Natural(5);
 			n.increment();
@@ -45,7 +45,7 @@ class NaturalTest {
 	/** DECREMENT */
 	
 	@Test
-	void decrementFalsifyPrecondition() {
+	void falsifyDecrementPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(1);
 			n.decrement();
@@ -53,7 +53,7 @@ class NaturalTest {
 	}
 	
 	@Test
-	void decrementSatisfyPostcondition() {
+	void satisfyDecrementPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n = new Natural(5);
 			n.increment();
@@ -63,7 +63,7 @@ class NaturalTest {
 	/** ADD */
 	
 	@Test
-	void addFalsifyPrecondition() {
+	void falsifyAddPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n1 = new Natural(1);
 			Natural n2 = new Natural(Integer.MAX_VALUE);
@@ -72,18 +72,31 @@ class NaturalTest {
 	}
 	
 	@Test
-	void addSatisfyPostcondition() {
+	void satisfyAddPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n1 = new Natural(Integer.MAX_VALUE / 2);
 			Natural n2 = new Natural(1);
 			n1.add(n2);
+		});	
+	}
+	
+	/** SUBTRACTED */
+	
+	@Test
+	void falsifySubtractPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE);
+			Natural n2 = new Natural(Integer.MAX_VALUE);
+			n1.subtract(n2);
+		});	
+	}
+	
+	@Test
+	void satisfySubtractPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE);
+			Natural n2 = new Natural(Integer.MAX_VALUE - 1);
+			n1.subtract(n2);
 		});
-		
-//		int t1 = Integer.MAX_VALUE / 2;
-//		int t2 = Integer.MAX_VALUE / 2 + 1;
-//		System.out.println( (t1 + t2));
-//		Natural n1 = new Natural(Integer.MAX_VALUE / 2);
-//		Natural n2 = new Natural(Integer.MAX_VALUE / 2 + 1);
-//		n1.add(n2);
 	}
 }
