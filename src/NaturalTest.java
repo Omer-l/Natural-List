@@ -59,4 +59,31 @@ class NaturalTest {
 			n.increment();
 		});
 	}
+	
+	/** ADD */
+	
+	@Test
+	void addFalsifyPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(1);
+			Natural n2 = new Natural(Integer.MAX_VALUE);
+			n1.add(n2);
+		});	
+	}
+	
+	@Test
+	void addSatisfyPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE / 2);
+			Natural n2 = new Natural(1);
+			n1.add(n2);
+		});
+		
+//		int t1 = Integer.MAX_VALUE / 2;
+//		int t2 = Integer.MAX_VALUE / 2 + 1;
+//		System.out.println( (t1 + t2));
+//		Natural n1 = new Natural(Integer.MAX_VALUE / 2);
+//		Natural n2 = new Natural(Integer.MAX_VALUE / 2 + 1);
+//		n1.add(n2);
+	}
 }
