@@ -15,8 +15,6 @@ class NaturalTest {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(-5);
 		});	
-		int testino = Integer.MAX_VALUE + 1;
-		System.out.println(testino == Integer.MIN_VALUE);
 	}
 	
 	@Test
@@ -30,7 +28,10 @@ class NaturalTest {
 	
 	@Test
 	void incrementFalsifyPrecondition() {
-		
+		assertThrows(PreconditionError.class, () -> {
+			Natural n = new Natural(Integer.MAX_VALUE);
+			n.increment();
+		});	
 	}
 	
 	@Test
@@ -41,4 +42,21 @@ class NaturalTest {
 		});
 	}
 	
+	/** DECREMENT */
+	
+	@Test
+	void decrementFalsifyPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n = new Natural(1);
+			n.decrement();
+		});	
+	}
+	
+	@Test
+	void decrementSatisfyPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+			n.increment();
+		});
+	}
 }
