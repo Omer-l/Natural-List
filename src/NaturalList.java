@@ -53,18 +53,19 @@ public class NaturalList {
 	}
 	
 	@Requires({"n != null"})
-	@Ensures({"elementExistsAtIndex(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this)))"})
+	@Ensures({"elementExistsAtIndex(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this))) && lengthIsTheSameAs(old( new NaturalList(this)))"})
 	public void set(int i, Natural n) {
 		numbers.set(i, n);
 	}
 	
 	@Requires("!empty()")
-	@Ensures("isSorted() && containsSameElements(old( new NaturalList(this)))")
+	@Ensures("isSorted() && containsSameElements(old( new NaturalList(this))) && lengthIsTheSameAs(old( new NaturalList(this)))")
 	public void sort() {
 		Collections.sort(numbers);
 	}
 	
-//	@Requires("numbers.isSorted") //TODO
+	@Requires("n != null && isSorted()")
+	@Ensures("containsSameElements(old( new NaturalList(this)))") //&& (-old( new NaturalList(this)).size() < result && result < old( new NaturalList(this)).size())
 	public int search(Natural n) {
 		return Collections.binarySearch(numbers, n);
 	}
@@ -111,9 +112,9 @@ public class NaturalList {
 		return natural.equals(numbers.get(index));
 	}
 	
-//	private boolean lengthIsTheSame(NaturalList naturalList) {
-//		return numbers.size() == naturalList.numbers.size();
-//	}
+	private boolean lengthIsTheSameAs(NaturalList naturalList) {
+		return numbers.size() == naturalList.numbers.size();
+	}
 	
 	private boolean allOtherElementsAreTheSame(int index, NaturalList listWithDifferentElementAtGivenIndex) {
 		ArrayList<Natural> listMissingElementAtGivenIndex = new ArrayList<Natural>(numbers);
