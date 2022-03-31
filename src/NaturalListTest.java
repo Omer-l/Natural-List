@@ -22,7 +22,13 @@ class NaturalListTest {
 	@Test
 	void satisfyConstructorPostcondition() {
 		assertDoesNotThrow(() -> {
-			Natural n = new Natural(1234);
+			Natural n1 = new Natural(1234);
+			Natural n2 = new Natural(12);
+			Natural n3 = new Natural(12345);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
 		});
 	}
 
