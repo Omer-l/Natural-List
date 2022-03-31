@@ -2,12 +2,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class NaturalListTest {
+import com.google.java.contract.PreconditionError;
 
+class NaturalListTest {
+	
+	/** PUSH */
+	
 	@Test
-	void test() {
-		NaturalList nl = new NaturalList();
-		System.out.println((2.5% 1));
+	void falsifyConstructorPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n = new Natural(12);
+			Natural nullNObject = null;
+			NaturalList nList = new NaturalList();
+			nList.push(n);
+			nList.push(nullNObject);
+		});	
+	}
+	
+	@Test
+	void satisfyConstructorPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(1234);
+		});
 	}
 
 }
