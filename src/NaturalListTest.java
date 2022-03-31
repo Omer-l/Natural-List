@@ -21,7 +21,6 @@ class NaturalListTest {
 	
 	@Test
 	void satisfyPushPostcondition() {
-		assertDoesNotThrow(() -> {
 			Natural n1 = new Natural(1234);
 			Natural n2 = new Natural(12);
 			Natural n3 = new Natural(12345);
@@ -29,7 +28,6 @@ class NaturalListTest {
 			nList.push(n1);
 			nList.push(n2);
 			nList.push(n3);
-		});
 	}
 	
 	/** GET */
@@ -44,7 +42,6 @@ class NaturalListTest {
 	
 	@Test
 	void satisfyGetPostcondition() {
-		assertDoesNotThrow(() -> {
 			Natural n1 = new Natural(1234);
 			Natural n2 = new Natural(12);
 			Natural n3 = new Natural(12345);
@@ -53,7 +50,6 @@ class NaturalListTest {
 			nList.push(n2);
 			nList.push(n3);
 			nList.get(2);
-		});
 	}
 	
 	/** SET */
@@ -74,7 +70,6 @@ class NaturalListTest {
 	
 	@Test
 	void satisfySetPostcondition() {
-		assertDoesNotThrow(() -> {
 			Natural n1 = new Natural(1234);
 			Natural n2 = new Natural(12);
 			Natural n3 = new Natural(12345);
@@ -84,7 +79,34 @@ class NaturalListTest {
 			nList.push(n3);
 			Natural n = new Natural(5000);
 			nList.set(2, n);
-		});
+	}
+	
+	/** SORT */
+	
+	@Test
+	void falsifySortPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.sort();
+		});	
+	}
+	
+	@Test
+	void satisfySortPostcondition() {
+			Natural n1 = new Natural(1);
+			Natural n2 = new Natural(5);
+			Natural n3 = new Natural(6);
+			Natural n6 = new Natural(9);
+			Natural n4 = new Natural(1);
+			Natural n5 = new Natural(5);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			nList.push(n4);
+			nList.push(n5);
+			nList.push(n6);
+			nList.sort();
 	}
 
 }
