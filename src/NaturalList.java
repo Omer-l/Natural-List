@@ -8,7 +8,7 @@ import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
 
-@ContractImport("java.util.ArrayList")
+@ContractImport({"java.util.ArrayList"})
 //Add an invariant here.
 @Invariant({"numbers != null", "!anyNullElementsInList()"})
 public class NaturalList {
@@ -40,14 +40,10 @@ public class NaturalList {
 	// Add contracts to all following methods.
 	
 	@Requires({"n != null", "spaceForElement()"})
-	@Ensures({"bruh(old(numbers))"})
+	@Ensures({"naturalPushed(n)",
+		"listEqualsSkippingOne(numbers, old(new ArrayList<>(numbers)))"})
 	public void push(Natural n) {
 		numbers.add(n);
-	}
-	
-	private boolean bruh(ArrayList<Natural> bruh) {
-		System.out.println(bruh);
-		return true;
 	}
 	
 	public Natural get(int i) {
@@ -69,10 +65,11 @@ public class NaturalList {
 	/** MY FUNCTIONS BELOW */
 	
 	private boolean anyNullElementsInList() {
-		for(Natural naturalNumberObject : numbers)
+		for(int naturalIndex = 0; naturalIndex < numbers.size(); naturalIndex++) {
+			Natural naturalNumberObject = numbers.get(naturalIndex);
 			if(naturalNumberObject == null)
 				return true;
-		
+		}
 		return false;
 	}
 	
@@ -80,18 +77,18 @@ public class NaturalList {
 		return numbers.size() < Integer.MAX_VALUE;
 	}
 	
-	private boolean hasOneMoreElementThan(NaturalList naturalList2) {
-		System.out.println(numbers + " , == " + naturalList2.numbers);
-		return this.numbers.size() == naturalList2.numbers.size() + 1;
+	private static boolean hasOneMoreElement(ArrayList<Natural> list1, ArrayList<Natural> list2) {
+		System.out.println(list1 + " : " + list2);
+		return list1.size() == list2.size() + 1;
 	}
 	
-	private boolean containsSameElementsAs(NaturalList naturalList2) {
-		ArrayList<Natural> list2 = naturalList2.numbers;
-		
-//		for(int naturalIndex = 0; naturalIndex < naturalList2.length; naturalIndex++) {
-//			
-//		}
-		
-		return true;
+    private static boolean listEqualsSkippingOne(ArrayList<Natural> a, ArrayList<Natural> b) {
+			ArrayList<Natural> askip = new ArrayList<Natural>(a);
+            askip.remove(askip.size() - 1);
+            return askip.equals(b);
+    }
+	
+	private boolean naturalPushed(Natural n) {
+		return numbers.get(numbers.size() - 1).compareTo(n) == 0;
 	}
 }
