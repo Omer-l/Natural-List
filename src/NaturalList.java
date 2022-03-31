@@ -45,16 +45,20 @@ public class NaturalList {
 		numbers.add(n);
 	}
 	
-	@Requires({"!empty()", "i >= 0 && i < numbers.size()"})
+	@Requires({"!empty()"})
 	@Ensures({"objectHasNotChanged(old( new NaturalList(this))) && isTheElement(i, result)"})
-	public Natural get(int i) { //TODO after set come back and test this for isTheElement
+	public Natural get(int i) {
 		return numbers.get(i);
 	}
 	
+	@Requires({"n != null"})
+	@Ensures({"isTheElement(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this)))"})
 	public void set(int i, Natural n) {
 		numbers.set(i, n);
 	}
 	
+//	@Requires("numbers")
+//	Ensures("")
 	public void sort() {
 		Collections.sort(numbers);
 	}
@@ -103,5 +107,16 @@ public class NaturalList {
 	
 	private boolean isTheElement(int index, Natural natural) {
 		return natural.equals(numbers.get(index));
+	}
+	
+//	private boolean lengthIsTheSame(NaturalList naturalList) {
+//		return numbers.size() == naturalList.numbers.size();
+//	}
+	
+	private boolean allOtherElementsAreTheSame(int index, NaturalList listWithDifferentElementAtGivenIndex) {
+		ArrayList<Natural> listMissingElementAtGivenIndex = new ArrayList<Natural>(numbers);
+        listMissingElementAtGivenIndex.remove(index);
+        listWithDifferentElementAtGivenIndex.numbers.remove(index);
+        return listMissingElementAtGivenIndex.equals(listWithDifferentElementAtGivenIndex.numbers);
 	}
 }
