@@ -55,5 +55,36 @@ class NaturalListTest {
 			nList.get(2);
 		});
 	}
+	
+	/** SET */
+	
+	@Test
+	void falsifySetPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(1234);
+			Natural n2 = new Natural(12);
+			Natural n3 = new Natural(12345);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			nList.set(1, null);
+		});	
+	}
+	
+	@Test
+	void satisfySetPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(1234);
+			Natural n2 = new Natural(12);
+			Natural n3 = new Natural(12345);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			Natural n = new Natural(5000);
+			nList.set(2, n);
+		});
+	}
 
 }
