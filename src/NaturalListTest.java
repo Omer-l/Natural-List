@@ -9,7 +9,7 @@ class NaturalListTest {
 	/** PUSH */
 	
 	@Test
-	void falsifyConstructorPrecondition() {
+	void falsifyPushPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
 			Natural n = new Natural(12);
 			Natural nullNObject = null;
@@ -20,7 +20,7 @@ class NaturalListTest {
 	}
 	
 	@Test
-	void satisfyConstructorPostcondition() {
+	void satisfyPushPostcondition() {
 		assertDoesNotThrow(() -> {
 			Natural n1 = new Natural(1234);
 			Natural n2 = new Natural(12);
@@ -29,6 +29,30 @@ class NaturalListTest {
 			nList.push(n1);
 			nList.push(n2);
 			nList.push(n3);
+		});
+	}
+	
+	/** GET */
+	
+	@Test
+	void falsifyGetPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.get(1);
+		});	
+	}
+	
+	@Test
+	void satisfyGetPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(1234);
+			Natural n2 = new Natural(12);
+			Natural n3 = new Natural(12345);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			nList.get(2);
 		});
 	}
 
