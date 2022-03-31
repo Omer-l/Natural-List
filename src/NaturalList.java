@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,23 +47,24 @@ public class NaturalList {
 	}
 	
 	@Requires({"!empty()"})
-	@Ensures({"objectHasNotChanged(old( new NaturalList(this))) && isTheElement(i, result)"})
+	@Ensures({"objectHasNotChanged(old( new NaturalList(this))) && elementExistsAtIndex(i, result)"})
 	public Natural get(int i) {
 		return numbers.get(i);
 	}
 	
 	@Requires({"n != null"})
-	@Ensures({"isTheElement(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this)))"})
+	@Ensures({"elementExistsAtIndex(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this)))"})
 	public void set(int i, Natural n) {
 		numbers.set(i, n);
 	}
 	
-//	@Requires("numbers")
-//	Ensures("")
+	@Requires("!empty()")
+	@Ensures("isSorted() && containsSameElements(old( new NaturalList(this)))")
 	public void sort() {
 		Collections.sort(numbers);
 	}
 	
+//	@Requires("numbers.isSorted") //TODO
 	public int search(Natural n) {
 		return Collections.binarySearch(numbers, n);
 	}
@@ -105,7 +107,7 @@ public class NaturalList {
 		return this.equals(naturalList);
 	}
 	
-	private boolean isTheElement(int index, Natural natural) {
+	private boolean elementExistsAtIndex(int index, Natural natural) {
 		return natural.equals(numbers.get(index));
 	}
 	
@@ -118,5 +120,57 @@ public class NaturalList {
         listMissingElementAtGivenIndex.remove(index);
         listWithDifferentElementAtGivenIndex.numbers.remove(index);
         return listMissingElementAtGivenIndex.equals(listWithDifferentElementAtGivenIndex.numbers);
+	}
+	
+	private boolean isSorted() {
+		for(int naturalIndex = 1; naturalIndex < numbers.size(); naturalIndex++) {
+			Natural nextNumber = numbers.get(naturalIndex);
+			Natural previousNumber = numbers.get(naturalIndex - 1);
+			
+			if(nextNumber.compareTo(previousNumber) == -1) //NOT greater than or equal to the previous number
+				return false;
+		}
+		return true;
+	}
+	
+	private int getMaximumNatural(ArrayList<Natural> list) {
+		Natural max = list.get(0);
+		for(int listIndex = 0; listIndex < list.size(); listIndex++) {
+			if(max.compareTo(list.get(listIndex)) < 0)
+				max = list.get(listIndex);
+		}
+
+		return Integer.parseInt(max.toString());
+	}
+	
+	private int[] countNumberOfTimesNaturalsAppeared(NaturalList list, int maximumNatural) {
+		
+		int numberOfNaturals = list.numbers.size();
+		int[] counterListObject = new int[maximumNatural];
+		ArrayList<Natural> naturals = list.numbers;
+		for(int naturalIndex = 0; naturalIndex < numberOfNaturals; naturalIndex++) {
+			int data = Integer.parseInt(naturals.get(naturalIndex).toString());
+			counterListObject[data - 1]++;
+		}
+		
+		return counterListObject;
+	}
+	
+	private boolean containsSameElements(NaturalList list) {
+		int maxNaturalInList = getMaximumNatural(list.numbers);
+		int maxNaturalInThisList = getMaximumNatural(this.numbers);
+		if(maxNaturalInList != maxNaturalInThisList) //they have a different maximum natural number
+			return false;
+		//count up given list's element occurences
+		int[] countListNumberOfTimesNaturalsAppeared = countNumberOfTimesNaturalsAppeared(list, maxNaturalInList);
+		int[] countThisNumberOfTimesNaturalsAppeared = countNumberOfTimesNaturalsAppeared(this, maxNaturalInList);
+		//compare counter list
+		for(int counterIndex = 0; counterIndex < maxNaturalInList; counterIndex++) {
+			int countInList = countListNumberOfTimesNaturalsAppeared[counterIndex];
+			int countInThisList = countThisNumberOfTimesNaturalsAppeared[counterIndex];
+			if(countInList != countInThisList)
+				return false; //number occured more times compared to the other list
+		}
+		return true;
 	}
 }
