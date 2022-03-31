@@ -47,7 +47,7 @@ class NaturalTest {
 	@Test
 	void falsifyDecrementPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			Natural n = new Natural(1);
+			Natural n = new Natural(0);
 			n.decrement();
 		});	
 	}
@@ -80,7 +80,7 @@ class NaturalTest {
 		});	
 	}
 	
-	/** SUBTRACTED */
+	/** SUBTRACT */
 	
 	@Test
 	void falsifySubtractPrecondition() {
@@ -97,6 +97,26 @@ class NaturalTest {
 			Natural n1 = new Natural(Integer.MAX_VALUE);
 			Natural n2 = new Natural(Integer.MAX_VALUE - 1);
 			n1.subtract(n2);
+		});
+	}
+	
+	/** MULTIPLY */
+	
+	@Test
+	void falsifyMultiplyPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE);
+			Natural n2 = new Natural(0);
+			n1.multiply(n2);
+		});	
+	}
+	
+	@Test
+	void satisfyMultiplyPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(2);
+			Natural n2 = new Natural(Integer.MAX_VALUE / 2);
+			n1.multiply(n2);
 		});
 	}
 }
