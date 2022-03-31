@@ -49,24 +49,26 @@ public class Natural implements Comparable<Natural> {
 	}
 	
 	@Requires("n.data < Integer.MAX_VALUE") // less than because max value + 1 will overflow
-	@Ensures("!overflowsAddition(old(this), n) && correctlyAdded(old(this.data), n.data)")
+	@Ensures("!overflowsAddition(old(data), n.data) && correctlyAdded(old(data), n.data)")
 	public void add(Natural n) {
 		this.data += n.data;
 	}
 
 	@Requires("n.data < Integer.MAX_VALUE") // less than because max value - max value will be 0
-	@Ensures("!minusNumber(old(this.data), n.data) && correctlySubtracted(old(this.data), n.data)")
+	@Ensures("!minusNumber(old(data), n.data) && correctlySubtracted(old(data), n.data)")
 	public void subtract(Natural n) {
 		data -= n.data;
 	}
 	
 	@Requires("n.data != 0 && n.data <= Integer.MAX_VALUE") //1 * max value is max value worst case.
-	@Ensures("!overflowsMultiply(old(this), n) && correctlyMultiplied(old(this.data), n.data)")
+	@Ensures("!overflowsMultiply(old(data), n.data) && correctlyMultiplied(old(data), n.data)")
 	public void multiply(Natural n) {
 		data *= n.data;
 		System.out.println(data);
 	}
 	
+//	@Requires("n.data != 0 && n.data <= Integer.MAX_VALUE") //max value divided by max value is worst case.
+//	@Ensures("!overflowsMultiply(old(this), n) && correctlyMultiplied(old(data), n.data)")
 	public void divide(Natural n) {
 		data /= n.data;
 	}
@@ -81,9 +83,7 @@ public class Natural implements Comparable<Natural> {
 		return oldData - 1 == newData;
 	}
 	
-	private boolean overflowsAddition(Natural natural1, Natural natural2) {
-		int n1 = natural1.data;
-		int n2 = natural2.data;
+	private boolean overflowsAddition(int n1, int n2) {
 		int result = n1 + n2;
 
 	    if (result < 0)
@@ -111,12 +111,10 @@ public class Natural implements Comparable<Natural> {
 		return result == this.data;
 	}
 	
-	private boolean overflowsMultiply(Natural natural1, Natural natural2) {
-		int n1 = natural1.data;
-		int n2 = natural2.data;
-		int result = n1 * n2; //needs work
+	private boolean overflowsMultiply(int n1, int n2) {
+		int result = n1 * n2; 
 
-	    if (result < 0)
+	    if (n1 != result / n2)
 	        return true;
 	    else
 	    	return false;
