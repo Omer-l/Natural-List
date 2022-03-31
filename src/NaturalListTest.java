@@ -108,5 +108,33 @@ class NaturalListTest {
 			nList.push(n6);
 			nList.sort();
 	}
-
+	
+	/** SEARCH */
+	
+	@Test
+	void falsifySearchPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.search(null);
+		});	
+	}
+	
+	@Test
+	void satisfySearchPostcondition() {
+			Natural n1 = new Natural(1);
+			Natural n2 = new Natural(5);
+			Natural n3 = new Natural(6);
+			Natural n6 = new Natural(9);
+			Natural n4 = new Natural(1);
+			Natural n5 = new Natural(5);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			nList.push(n4);
+			nList.push(n5);
+			nList.push(n6);
+			nList.sort();
+			nList.search(new Natural(6));
+	}
 }
