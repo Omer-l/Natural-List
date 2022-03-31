@@ -10,7 +10,7 @@ import com.google.java.contract.Requires;
 
 @ContractImport({"java.util.ArrayList"})
 //Add an invariant here.
-@Invariant({"numbers != null", "!anyNullElementsInList()"})
+@Invariant({"numbers != null && !anyNullElementsInList()"})
 public class NaturalList {
 	private ArrayList<Natural> numbers;
 	
@@ -39,14 +39,15 @@ public class NaturalList {
 
 	// Add contracts to all following methods.
 	
-	@Requires({"n != null", "spaceForElement()"})
-	@Ensures({"naturalPushed(n)",
-		"listEqualsSkippingOne(numbers, old(new ArrayList<>(numbers)))"})
+	@Requires({"n != null && spaceForElement()"})
+	@Ensures({"naturalPushed(n) && listEqualsSkippingOne(numbers, old(new ArrayList<>(numbers)))"})
 	public void push(Natural n) {
 		numbers.add(n);
 	}
 	
-	public Natural get(int i) {
+	@Requires({"!empty()", "i >= 0 && i < numbers.size()"})
+	@Ensures({"objectHasNotChanged(old( new NaturalList(this))) && isTheElement(i, result)"})
+	public Natural get(int i) { //TODO after set come back and test this for isTheElement
 		return numbers.get(i);
 	}
 	
@@ -82,13 +83,25 @@ public class NaturalList {
 		return list1.size() == list2.size() + 1;
 	}
 	
-    private static boolean listEqualsSkippingOne(ArrayList<Natural> a, ArrayList<Natural> b) {
-			ArrayList<Natural> askip = new ArrayList<Natural>(a);
-            askip.remove(askip.size() - 1);
-            return askip.equals(b);
+    private static boolean listEqualsSkippingOne(ArrayList<Natural> longerList, ArrayList<Natural> shorterList) {
+			ArrayList<Natural> listMissingLastElement = new ArrayList<Natural>(longerList);
+            listMissingLastElement.remove(listMissingLastElement.size() - 1);
+            return listMissingLastElement.equals(shorterList);
     }
 	
 	private boolean naturalPushed(Natural n) {
 		return numbers.get(numbers.size() - 1).compareTo(n) == 0;
+	}
+	
+	private boolean empty() {
+		return numbers.isEmpty();
+	}
+	
+	private boolean objectHasNotChanged(NaturalList naturalList) {
+		return this.equals(naturalList);
+	}
+	
+	private boolean isTheElement(int index, Natural natural) {
+		return natural.equals(numbers.get(index));
 	}
 }
