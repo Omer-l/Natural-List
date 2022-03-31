@@ -67,8 +67,8 @@ public class Natural implements Comparable<Natural> {
 		System.out.println(data);
 	}
 	
-//	@Requires("n.data != 0 && n.data <= Integer.MAX_VALUE") //max value divided by max value is worst case.
-//	@Ensures("!overflowsMultiply(old(this), n) && correctlyMultiplied(old(data), n.data)")
+	@Requires("n.data != 0 && n.data <= Integer.MAX_VALUE") //max value divided by max value is worst case.
+	@Ensures("correctlyDivided(old(data), n.data) && resultOfDivideNatural(old(data), n.data)")
 	public void divide(Natural n) {
 		data /= n.data;
 	}
@@ -123,5 +123,14 @@ public class Natural implements Comparable<Natural> {
 	private boolean correctlyMultiplied(int n1, int n2) {
 		int result = n1 * n2;
 		return result == this.data;
+	}
+	
+	private boolean correctlyDivided(int n1, int n2) {
+		int result = n1 / n2;
+		return result == this.data;
+	}
+	
+	private boolean resultOfDivideNatural(int n1, int n2) {
+		return n1 % n2 == 0;
 	}
 }
