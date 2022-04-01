@@ -11,7 +11,7 @@ import com.google.java.contract.Requires;
 
 @ContractImport({"java.util.ArrayList"})
 //Add an invariant here.
-@Invariant({"numbers != null && !anyNullElementsInList()"})
+@Invariant({"numbers != null && !nullElementsExist()"})
 public class NaturalList {
 	private ArrayList<Natural> numbers;
 	
@@ -41,7 +41,7 @@ public class NaturalList {
 	// Add contracts to all following methods.
 	
 	@Requires({"n != null && spaceForElement()"})
-	@Ensures({"naturalPushed(n) && listEqualsSkippingOne(numbers, old(new ArrayList<>(numbers)))"})
+	@Ensures({"naturalAtEndOfList(n) && listEqualsSkippingOne(numbers, old(new ArrayList<>(numbers)))"})
 	public void push(Natural n) {
 		numbers.add(n);
 	}
@@ -65,14 +65,14 @@ public class NaturalList {
 	}
 	
 	@Requires("n != null && isSorted()")
-	@Ensures("containsSameElements(old( new NaturalList(this)))") //&& (-old( new NaturalList(this)).size() < result && result < old( new NaturalList(this)).size())
+	@Ensures("objectHasNotChanged(old( new NaturalList(this))) && correctlyBinarySearched(n, result)")
 	public int search(Natural n) {
 		return Collections.binarySearch(numbers, n);
 	}
 	
 	/** MY FUNCTIONS BELOW */
 	
-	private boolean anyNullElementsInList() {
+	private boolean nullElementsExist() {
 		for(int naturalIndex = 0; naturalIndex < numbers.size(); naturalIndex++) {
 			Natural naturalNumberObject = numbers.get(naturalIndex);
 			if(naturalNumberObject == null)
@@ -96,7 +96,7 @@ public class NaturalList {
             return listMissingLastElement.equals(shorterList);
     }
 	
-	private boolean naturalPushed(Natural n) {
+	private boolean naturalAtEndOfList(Natural n) {
 		return numbers.get(numbers.size() - 1).compareTo(n) == 0;
 	}
 	
@@ -136,5 +136,9 @@ public class NaturalList {
 	
 	private boolean containsSameElements(NaturalList list) {
 		return list.numbers.containsAll(this.numbers);
+	}
+	
+	public boolean correctlyBinarySearched(Natural n, int resultIndex) {
+		return numbers.get(resultIndex).compareTo(n) == 0;
 	}
 }
