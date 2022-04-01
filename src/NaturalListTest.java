@@ -165,7 +165,7 @@ class NaturalListTest {
 	}
 	
 	@Test
-	void satisfySearchPostcondition() {
+	void satisfySearchPostconditionElementExists() {
 			Natural n1 = new Natural(1);
 			Natural n2 = new Natural(4);
 			Natural n3 = new Natural(4);
@@ -185,5 +185,28 @@ class NaturalListTest {
 			nList.push(n8);
 			nList.sort();
 			nList.search(new Natural(4));
+	}
+	
+	@Test
+	void satisfySearchPostconditionDoesntExist() {
+			Natural n1 = new Natural(1);
+			Natural n2 = new Natural(4);
+			Natural n3 = new Natural(4);
+			Natural n4 = new Natural(4);
+			Natural n5 = new Natural(4);
+			Natural n6 = new Natural(7);
+			Natural n7 = new Natural(84);
+			Natural n8 = new Natural(7);
+			NaturalList nList = new NaturalList();
+			nList.push(n1);
+			nList.push(n2);
+			nList.push(n3);
+			nList.push(n4);
+			nList.push(n5);
+			nList.push(n6);
+			nList.push(n7);
+			nList.push(n8);
+			nList.sort();
+			nList.search(new Natural(94));
 	}
 }

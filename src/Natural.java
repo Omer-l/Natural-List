@@ -54,7 +54,7 @@ public class Natural implements Comparable<Natural> {
 		this.data += n.data;
 	}
 
-	@Requires("n.data <= data")
+	@Requires("data >= n.data")
 	@Ensures("correctlySubtracted(old(data), n.data)")
 	public void subtract(Natural n) {
 		data -= n.data;

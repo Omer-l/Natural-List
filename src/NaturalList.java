@@ -10,7 +10,7 @@ import com.google.java.contract.Requires;
 
 @ContractImport({"java.util.ArrayList"})
 //Add an invariant here.
-@Invariant({"numbers != null && !nullElementsExist()"})
+@Invariant({"!nullElementsExist() && numbers != null"})
 public class NaturalList {
 	private ArrayList<Natural> numbers;
 	
@@ -138,7 +138,20 @@ public class NaturalList {
 	}
 	
 	private boolean correctlyBinarySearched(Natural n, int resultIndex) {
-		return numbers.get(resultIndex).compareTo(n) == 0;
+		if(resultIndex < 0) {
+			int indexElementShouldHaveBeen = 1;
+			
+			for(; indexElementShouldHaveBeen <= numbers.size(); indexElementShouldHaveBeen++) {
+				Natural currentElement = numbers.get(indexElementShouldHaveBeen - 1);
+				if(currentElement.compareTo(n) == 1) {
+					break;
+				}
+			}
+			
+			return  -indexElementShouldHaveBeen == resultIndex;
+			
+		} else
+			return numbers.get(resultIndex).compareTo(n) == 0;
 	}
 	
 	private boolean withinBounds(int index) {
