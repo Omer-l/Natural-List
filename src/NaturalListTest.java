@@ -3,138 +3,140 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.google.java.contract.PreconditionError;
+import com.google.java.contract.InvariantError;
+import com.google.java.contract.PostconditionError;
 
-class NaturalListTest {
-	
-	/** PUSH */
+class NaturalTest {
+
+	/** CONSTRUCTOR */
 	
 	@Test
-	void falsifyPushPrecondition() {
+	void falsifyConstructorPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			Natural n = new Natural(12);
-			Natural nullNObject = null;
-			NaturalList nList = new NaturalList();
-			nList.push(n);
-			nList.push(nullNObject);
+			Natural n = new Natural(-5);
 		});	
 	}
 	
 	@Test
-	void satisfyPushPostcondition() {
-			Natural n1 = new Natural(1234);
-			Natural n2 = new Natural(12);
-			Natural n3 = new Natural(12345);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
+	void satisfyConstructorPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+		});
 	}
 	
-	/** GET */
+	/** INCREMENT */
 	
 	@Test
-	void falsifyGetPrecondition() {
+	void falsifyIncrementPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			NaturalList nList = new NaturalList();
-			nList.get(1);
+			Natural n = new Natural(Integer.MAX_VALUE);
+			n.increment();
 		});	
 	}
 	
 	@Test
-	void satisfyGetPostcondition() {
-			Natural n1 = new Natural(1234);
-			Natural n2 = new Natural(12);
-			Natural n3 = new Natural(12345);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
-			nList.get(2);
+	void satisfyIncrementPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+			n.increment();
+		});
 	}
 	
-	/** SET */
+	/** DECREMENT */
 	
 	@Test
-	void falsifySetPrecondition() {
+	void falsifyDecrementPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			Natural n1 = new Natural(1234);
-			Natural n2 = new Natural(12);
-			Natural n3 = new Natural(12345);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
-			nList.set(1, null);
+			Natural n = new Natural(0);
+			n.decrement();
 		});	
 	}
 	
 	@Test
-	void satisfySetPostcondition() {
-			Natural n1 = new Natural(1234);
-			Natural n2 = new Natural(12);
-			Natural n3 = new Natural(12345);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
-			Natural n = new Natural(5000);
-			nList.set(2, n);
+	void satisfyDecrementPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n = new Natural(5);
+			n.increment();
+		});
 	}
 	
-	/** SORT */
+	/** ADD */
 	
 	@Test
-	void falsifySortPrecondition() {
+	void falsifyAddPreconditionOverflow() {
 		assertThrows(PreconditionError.class, () -> {
-			NaturalList nList = new NaturalList();
-			nList.sort();
+			Natural n1 = new Natural(500);
+			Natural n2 = new Natural(Integer.MAX_VALUE);
+			n1.add(n2);
 		});	
 	}
 	
 	@Test
-	void satisfySortPostcondition() {
-			Natural n1 = new Natural(1);
-			Natural n2 = new Natural(5);
-			Natural n3 = new Natural(6);
-			Natural n6 = new Natural(9);
-			Natural n4 = new Natural(1);
-			Natural n5 = new Natural(5);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
-			nList.push(n4);
-			nList.push(n5);
-			nList.push(n6);
-			nList.sort();
+	void satisfyAddPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE / 2);
+			Natural n2 = new Natural(1);
+			n1.add(n2);
+		});	
 	}
 	
-	/** SEARCH */
+	/** SUBTRACT */
 	
 	@Test
-	void falsifySearchPrecondition() {
+	void falsifySubtractPrecondition() {
 		assertThrows(PreconditionError.class, () -> {
-			NaturalList nList = new NaturalList();
-			nList.search(null);
+			Natural n1 = new Natural(Integer.MAX_VALUE - 1);
+			Natural n2 = new Natural(Integer.MAX_VALUE);
+			n1.subtract(n2);
 		});	
 	}
 	
 	@Test
-	void satisfySearchPostcondition() {
-			Natural n1 = new Natural(1);
-			Natural n2 = new Natural(5);
-			Natural n3 = new Natural(6);
-			Natural n6 = new Natural(9);
-			Natural n4 = new Natural(1);
-			Natural n5 = new Natural(5);
-			NaturalList nList = new NaturalList();
-			nList.push(n1);
-			nList.push(n2);
-			nList.push(n3);
-			nList.push(n4);
-			nList.push(n5);
-			nList.push(n6);
-			nList.sort();
-			nList.search(new Natural(6));
+	void satisfySubtractPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE);
+			Natural n2 = new Natural(Integer.MAX_VALUE - 1);
+			n1.subtract(n2);
+		});
+	}
+
+	/** MULTIPLY */
+
+	@Test
+	void falsifyMultiplyPrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(Integer.MAX_VALUE / 2);
+			Natural n2 = new Natural(3);
+			n1.multiply(n2);
+		});	
+	}
+
+	@Test
+	void satisfyMultiplyPostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(2);
+			Natural n2 = new Natural(Integer.MAX_VALUE / 2);
+			n1.multiply(n2);
+		});
+	}
+	
+	/** DIVIDE */
+	
+	@Test
+	void falsifyDividePrecondition() {
+		assertThrows(PreconditionError.class, () -> {
+			Natural n1 = new Natural(6);
+			Natural n2 = new Natural(0);
+			n1.divide(n2);
+		});	
+	}
+	
+	@Test
+	void satisfyDividePostcondition() {
+		assertDoesNotThrow(() -> {
+			Natural n1 = new Natural(8);
+			Natural n2 = new Natural(2);
+			n1.divide(n2);
+		});
 	}
 }
