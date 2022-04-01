@@ -165,6 +165,26 @@ class NaturalListTest {
 	}
 	
 	@Test
+	void falsifySearchPreconditionNotSortedList() {
+		Natural n1 = new Natural(1);
+		Natural n2 = new Natural(4);
+		Natural n3 = new Natural(4);
+		Natural n4 = new Natural(7);
+		Natural n5 = new Natural(4);
+		Natural n6 = new Natural(4);
+		NaturalList nList = new NaturalList();
+		nList.push(n1);
+		nList.push(n2);
+		nList.push(n3);
+		nList.push(n4);
+		nList.push(n5);
+		nList.push(n6);
+		assertThrows(PreconditionError.class, () -> {
+			nList.search(new Natural(4));
+		});	
+	}
+	
+	@Test
 	void satisfySearchPostconditionElementExists() {
 			Natural n1 = new Natural(1);
 			Natural n2 = new Natural(4);
