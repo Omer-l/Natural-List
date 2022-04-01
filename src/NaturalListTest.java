@@ -41,6 +41,28 @@ class NaturalListTest {
 	}
 	
 	@Test
+	void falsifyGetPreconditionOutOfBoundsLower() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.push(new Natural(12));
+			nList.push(new Natural(22));
+			nList.push(new Natural(32));
+			nList.get(-1);
+		});	
+	}
+	
+	@Test
+	void falsifyGetPreconditionOutOfBoundsUpper() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.push(new Natural(12));
+			nList.push(new Natural(22));
+			nList.push(new Natural(32));
+			nList.get(3);
+		});	
+	}
+	
+	@Test
 	void satisfyGetPostcondition() {
 			Natural n1 = new Natural(1234);
 			Natural n2 = new Natural(12);
@@ -79,6 +101,29 @@ class NaturalListTest {
 			nList.push(n3);
 			Natural n = new Natural(5000);
 			nList.set(2, n);
+	}
+
+	
+	@Test
+	void falsifySetPreconditionOutOfBoundsLower() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.push(new Natural(12));
+			nList.push(new Natural(22));
+			nList.push(new Natural(32));
+			nList.set(-1, new Natural(50));
+		});	
+	}
+	
+	@Test
+	void falsifySetPreconditionOutOfBoundsUpper() {
+		assertThrows(PreconditionError.class, () -> {
+			NaturalList nList = new NaturalList();
+			nList.push(new Natural(12));
+			nList.push(new Natural(22));
+			nList.push(new Natural(32));
+			nList.set(3, new Natural(50));
+		});	
 	}
 	
 	/** SORT */
@@ -136,6 +181,8 @@ class NaturalListTest {
 			nList.push(n4);
 			nList.push(n5);
 			nList.push(n6);
+			nList.push(n7);
+			nList.push(n8);
 			nList.sort();
 			nList.search(new Natural(4));
 	}
