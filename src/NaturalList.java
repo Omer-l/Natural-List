@@ -46,13 +46,13 @@ public class NaturalList {
 		numbers.add(n);
 	}
 	
-	@Requires({"!empty()"})
+	@Requires({"!empty() && withinBounds(i)"})
 	@Ensures({"objectHasNotChanged(old( new NaturalList(this))) && elementExistsAtIndex(i, result)"})
 	public Natural get(int i) {
 		return numbers.get(i);
 	}
 	
-	@Requires({"n != null"})
+	@Requires({"n != null && withinBounds(i)"})
 	@Ensures({"elementExistsAtIndex(i, n) && allOtherElementsAreTheSame(i, old( new NaturalList(this))) && lengthIsTheSameAs(old( new NaturalList(this)))"})
 	public void set(int i, Natural n) {
 		numbers.set(i, n);
@@ -140,5 +140,9 @@ public class NaturalList {
 	
 	public boolean correctlyBinarySearched(Natural n, int resultIndex) {
 		return numbers.get(resultIndex).compareTo(n) == 0;
+	}
+	
+	public boolean withinBounds(int index) {
+		return 0 <= index && index < numbers.size();
 	}
 }
