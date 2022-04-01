@@ -65,7 +65,7 @@ public class NaturalList {
 	}
 	
 	@Requires("n != null && isSorted()")
-	@Ensures("objectHasNotChanged(old( new NaturalList(this))) && containsSameElements(old( new NaturalList(this))) && correctlyBinarySearched(n, result)")
+	@Ensures("objectHasNotChanged(old( new NaturalList(this))) && correctlyBinarySearched(n, result)")
 	public int search(Natural n) {
 		return Collections.binarySearch(numbers, n);
 	}
